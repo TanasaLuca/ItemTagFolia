@@ -37,6 +37,7 @@ public class ItemTag extends APlugin {
     private static ItemTag plugin = null;
     private static TagManager tagManager = null;
     private static boolean USE_NBTAPI;
+    private Placeholders placeholders;
     @Getter
     private EquipmentChangeListenerBase equipChangeListener;
     @Getter
@@ -107,7 +108,8 @@ public class ItemTag extends APlugin {
             if (Hooks.isPAPIEnabled()) {
                 try {
                     this.log("Hooking into PlaceholderApi");
-                    new Placeholders().register();
+                    placeholders = new Placeholders();
+                    placeholders.register();
                 } catch (Throwable t) {
                     log.warn(t.getMessage(), t);
                 }
@@ -129,6 +131,8 @@ public class ItemTag extends APlugin {
 
     @Override
     public void disable() {
+        if (equipChangeListener != null) equipChangeListener.shutdown();
+        if (placeholders != null) placeholders.unregister();
     }
 
     @Override
@@ -183,7 +187,7 @@ public class ItemTag extends APlugin {
             case "NBTAPI":
                 try {
                     initNBTAPI();
-                } catch (Exception e) {
+                } catch (Exception | LinkageError e) {
                     Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "NBTAPI is selected as data.preference but it's not installed/working, " +
                             "if you wish to use NBTAPI get the plugin at www.spigotmc.org/resources/7939/");
                     initDefault();
@@ -199,7 +203,7 @@ public class ItemTag extends APlugin {
     }
 
     private void initNBTAPI() throws Exception {
-        new NBTAPITagItem(new ItemStack(Material.STONE));//force load NBTAPI classes or fails
+        new NBTAPITagItem(new ItemStack(Material.STONE)).getNbtItem().hasKey("itemtag:compatibility");
         USE_NBTAPI = true;
         tagManager = new NBTAPITagManager();
         this.log("Data using NBTAPI");

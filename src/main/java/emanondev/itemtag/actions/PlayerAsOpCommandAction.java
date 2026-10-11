@@ -74,12 +74,14 @@ public class PlayerAsOpCommandAction extends Action {
 
         text = UtilsString.fix(text, player, true, "%player%", player.getName());
         boolean op = player.isOp();
-        if (!op) {
-            player.setOp(true);
-            data.set(player.getUniqueId().toString(), true);
-            data.save();
-        }
         try {
+            if (!op) {
+                synchronized (data) {
+                    data.set(player.getUniqueId().toString(), true);
+                    data.save();
+                    player.setOp(true);
+                }
+            }
             if (ItemTag.get().getConfig().loadBoolean("actions.player_command.fires_playercommandpreprocessevent",
                     true)) {
                 PlayerCommandPreprocessEvent evt = new PlayerCommandPreprocessEvent(player, text);
@@ -94,8 +96,11 @@ public class PlayerAsOpCommandAction extends Action {
             log.warn(e.getMessage(), e);
         } finally {
             if (!op) {
-                player.setOp(false);
-                data.set(player.getUniqueId().toString(), null);
+                synchronized (data) {
+                    player.setOp(false);
+                    data.set(player.getUniqueId().toString(), null);
+                    data.save();
+                }
             }
         }
     }

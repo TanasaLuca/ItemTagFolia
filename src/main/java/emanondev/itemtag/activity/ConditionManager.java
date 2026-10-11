@@ -7,12 +7,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Locale;
 
 public class ConditionManager {
 
-    private static final HashMap<String, ConditionType> conditionTypes = new HashMap<>();
+    private static final ConcurrentHashMap<String, ConditionType> conditionTypes = new ConcurrentHashMap<>();
 
     public static @Nullable ConditionType.Condition read(@NotNull String line) {
         int index = line.indexOf(" ");

@@ -21,3 +21,5 @@
 
 # Other Libraries
 *.jar
+# Local build logs
+/build-port.log

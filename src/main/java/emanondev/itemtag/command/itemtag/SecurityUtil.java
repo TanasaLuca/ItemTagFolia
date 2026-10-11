@@ -15,7 +15,7 @@ public class SecurityUtil {
 
     private static UUID uuid;
 
-    private static @NotNull UUID getUUID() {
+    private static synchronized @NotNull UUID getUUID() {
         if (uuid == null) {
             YMLConfig config = ItemTag.get().getConfig("security.yml");
             try {

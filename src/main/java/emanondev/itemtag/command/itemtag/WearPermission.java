@@ -1,5 +1,6 @@
 package emanondev.itemtag.command.itemtag;
 
+import emanondev.itemtag.scheduler.ItemTagTasks;
 import emanondev.itemedit.CooldownAPI;
 import emanondev.itemedit.Util;
 import emanondev.itemedit.UtilsString;
@@ -11,7 +12,6 @@ import emanondev.itemtag.ItemTag;
 import emanondev.itemtag.TagItem;
 import emanondev.itemtag.command.ListenerSubCmd;
 import emanondev.itemtag.equipmentchange.EquipmentChangeEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -114,7 +114,7 @@ public class WearPermission extends ListenerSubCmd {
             return;
         }
 
-        Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
+        ItemTagTasks.playerLater(getPlugin(), player, () -> {
             if (!player.isOnline())
                 return;
             ItemStack originalItem = InventoryUtils.getItem(player, event.getSlotType());

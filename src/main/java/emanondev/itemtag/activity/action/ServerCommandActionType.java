@@ -1,8 +1,8 @@
 package emanondev.itemtag.activity.action;
 
+import emanondev.itemtag.scheduler.ItemTagTasks;
 import emanondev.itemedit.UtilsString;
 import emanondev.itemtag.activity.ActionType;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
@@ -26,7 +26,7 @@ public class ServerCommandActionType extends ActionType {
 
         @Override
         public boolean execute(@NotNull Player player, @NotNull ItemStack item, Event event) {
-            return Bukkit.dispatchCommand(Bukkit.getConsoleSender(), UtilsString.fix(getInfo(), player, true));
+            return ItemTagTasks.consoleCommand( UtilsString.fix(getInfo(), player, true));
         }
     }
 }

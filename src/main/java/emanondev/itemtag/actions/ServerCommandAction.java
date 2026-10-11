@@ -1,10 +1,10 @@
 package emanondev.itemtag.actions;
 
+import emanondev.itemtag.scheduler.ItemTagTasks;
 import emanondev.itemedit.UtilsString;
 import emanondev.itemedit.utility.CompleteUtility;
 import emanondev.itemtag.ItemTag;
 import emanondev.itemtag.command.itemtag.SecurityUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -55,7 +55,7 @@ public class ServerCommandAction extends Action {
                 return;
             }
         }
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), UtilsString.fix(text, player, true, "%player%", player.getName()));
+        ItemTagTasks.consoleCommand( UtilsString.fix(text, player, true, "%player%", player.getName()));
     }
 
     @Override

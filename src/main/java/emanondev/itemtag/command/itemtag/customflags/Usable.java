@@ -1,10 +1,10 @@
 package emanondev.itemtag.command.itemtag.customflags;
 
+import emanondev.itemtag.scheduler.ItemTagTasks;
 import emanondev.itemedit.utility.InventoryUtils;
 import emanondev.itemedit.utility.VersionUtils;
 import emanondev.itemtag.ItemTag;
 import emanondev.itemtag.command.itemtag.Flag;
-import org.bukkit.Bukkit;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -37,12 +37,15 @@ public class Usable extends CustomFlag {
                         b = event.getPlayer().getTargetBlockExact(7, FluidCollisionMode.SOURCE_ONLY);
                     } else
                         b = null;
-                    Bukkit.getScheduler().runTaskLater(ItemTag.get(), () -> { //TODO folia fix
+                    org.bukkit.Location blockLocation = b == null ? null : b.getLocation();
+                    org.bukkit.block.data.BlockData blockData = b == null ? null : b.getBlockData();
+                    ItemTagTasks.playerLater(ItemTag.get(), event.getPlayer(), () -> {
                         if (!VersionUtils.isVersionAfter(1, 20)) {
                             InventoryUtils.updateView(event.getPlayer());
                         }
                         if (b != null) {//reduce clientside visual glich on liquids only for 1.14+
-                            event.getPlayer().sendBlockChange(b.getLocation(), b.getBlockData());
+                            if (event.getPlayer().getWorld() == blockLocation.getWorld())
+                                event.getPlayer().sendBlockChange(blockLocation, blockData);
                         }
                     }, 1L);
                 }

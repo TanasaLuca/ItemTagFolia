@@ -1,8 +1,8 @@
 package emanondev.itemtag.command.itemtag.customflags;
 
+import emanondev.itemtag.scheduler.ItemTagTasks;
 import emanondev.itemtag.ItemTag;
 import emanondev.itemtag.command.itemtag.Flag;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,7 +27,8 @@ public class RenamableOld extends CustomFlag {
         }
         if (ItemTag.getTagItem(event.getInventory().getItem(0)).hasBooleanTag(RENAMABLE_KEY) ||
                 ItemTag.getTagItem(event.getInventory().getItem(1)).hasBooleanTag(RENAMABLE_KEY)) {
-            Bukkit.getScheduler().runTaskLater(ItemTag.get(), () -> {
+            ItemTagTasks.playerLater(ItemTag.get(), (org.bukkit.entity.Player) event.getWhoClicked(), () -> {
+                if (!event.getWhoClicked().getOpenInventory().getTopInventory().equals(event.getInventory())) return;
                 if (ItemTag.getTagItem(event.getInventory().getItem(0)).hasBooleanTag(RENAMABLE_KEY) ||
                         ItemTag.getTagItem(event.getInventory().getItem(1)).hasBooleanTag(RENAMABLE_KEY)) {
                     event.getInventory().setItem(2, null);

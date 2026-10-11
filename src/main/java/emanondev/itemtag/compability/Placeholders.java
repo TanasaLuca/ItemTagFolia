@@ -6,8 +6,8 @@ import emanondev.itemtag.actions.ActionsUtility;
 import lombok.extern.slf4j.Slf4j;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
@@ -113,17 +113,18 @@ public class Placeholders extends PlaceholderExpansion {
                     break;
                 }
                 case "handcooldown": {
-                    ItemStack item = ItemUtils.getHandItem(player);
-                    if (ItemUtils.isAirOrNull(item))
-                        return "0";
-                    id = ActionsUtility.getCooldownId(ItemTag.getTagItem(item));
+                    HandSnapshotCache.HandSnapshot snapshot = Bukkit.isOwnedByCurrentRegion(player)
+                            ? HandSnapshotCache.update(player, ItemUtils.getHandItem(player))
+                            : HandSnapshotCache.get(player);
+                    id = snapshot.cooldownId();
+                    if (id == null) return "0";
                     break;
                 }
                 case "usesleft": {
-                    ItemStack item = ItemUtils.getHandItem(player);
-                    if (ItemUtils.isAirOrNull(item))
-                        return "0";
-                    return String.valueOf(ActionsUtility.getUses(ItemTag.getTagItem(item)));
+                    HandSnapshotCache.HandSnapshot snapshot = Bukkit.isOwnedByCurrentRegion(player)
+                            ? HandSnapshotCache.update(player, ItemUtils.getHandItem(player))
+                            : HandSnapshotCache.get(player);
+                    return String.valueOf(snapshot.uses());
                 }
                 default:
                     throw new IllegalStateException();

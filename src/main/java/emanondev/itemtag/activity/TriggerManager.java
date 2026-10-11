@@ -6,11 +6,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TriggerManager {
 
-    private static final HashMap<String, TriggerType> triggerTypes = new HashMap<>();
+    private static final ConcurrentHashMap<String, TriggerType> triggerTypes = new ConcurrentHashMap<>();
 
     public static void registerTriggerType(@NotNull TriggerType type) {
         if (triggerTypes.containsKey(type.getId()))

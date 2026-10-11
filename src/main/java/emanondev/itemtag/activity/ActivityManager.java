@@ -9,14 +9,14 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
 @Slf4j
 public class ActivityManager {
 
-    private static final HashMap<String, Activity> activities = new HashMap<>();
+    private static final ConcurrentHashMap<String, Activity> activities = new ConcurrentHashMap<>();
 
     public static void reload() {
         activities.clear();

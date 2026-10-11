@@ -6,13 +6,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Locale;
 
 public abstract class Manager<T extends Factory, S extends Factory.Element> {
 
     private final String name;
-    private final HashMap<String, T> types = new HashMap<>();
+    private final ConcurrentHashMap<String, T> types = new ConcurrentHashMap<>();
 
     public Manager(String name) {
         this.name = name;

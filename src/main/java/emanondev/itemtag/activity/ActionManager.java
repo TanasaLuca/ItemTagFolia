@@ -7,11 +7,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Locale;
 
 public class ActionManager {
-    private static final HashMap<String, ActionType> actionTypes = new HashMap<>();
+    private static final ConcurrentHashMap<String, ActionType> actionTypes = new ConcurrentHashMap<>();
 
     public static @NotNull ActionType.Action read(@NotNull String line) {
         int index = line.indexOf(" ");

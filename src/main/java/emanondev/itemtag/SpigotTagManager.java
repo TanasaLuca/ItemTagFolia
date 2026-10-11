@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @see SpigotTagItem
@@ -14,7 +14,7 @@ import java.util.WeakHashMap;
 @Deprecated
 public class SpigotTagManager implements TagManager {
 
-    private final WeakHashMap<String, NamespacedKey> keys = new WeakHashMap<>();
+    private final ConcurrentHashMap<String, NamespacedKey> keys = new ConcurrentHashMap<>();
 
     @Override
     public boolean hasBooleanTag(String key, ItemStack item) {

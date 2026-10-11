@@ -11,11 +11,11 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SpigotTagItem implements TagItem {
 
-    private static final HashMap<String, NamespacedKey> keys = new HashMap<String, NamespacedKey>() {
+    private static final ConcurrentHashMap<String, NamespacedKey> keys = new ConcurrentHashMap<String, NamespacedKey>() {
         @Override
         public NamespacedKey get(Object key) {
             NamespacedKey keyN = super.get(key);
